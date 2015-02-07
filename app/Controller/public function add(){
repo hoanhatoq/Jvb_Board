@@ -1,0 +1,17 @@
+ public function add(){
+
+     if ($this->request->is('post')) {
+
+   $mstAdmin = $this->request->data;
+   $exists = $this->MstAdmin->findByUsername($mstAdmin['MstAdmin']['username']);
+   if ($exists){
+    $this->Session->setFlash(__('username already in use. Please enter a different name'));
+   }else{
+    $this->MstAdmin->create();
+     if ($this->MstAdmin->save($mstAdmin)) {
+     $this->Session->setFlash(__(('会員'). $this->MstAdmin->getLastInsertID().('を登録しました。'))); 
+     return $this->redirect(array('plugin'=> 'admin', 'controller' => 'admin','action' => 'index'));
+    }
+   }
+  }
+ }
